@@ -3,6 +3,7 @@ package com.alphabet.linkedin.companyms.company.impl;
 
 
 import com.alphabet.linkedin.companyms.company.Company;
+import com.alphabet.linkedin.companyms.company.dto.ReviewMessage;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public interface CompanyServiceImpl {
     public abstract boolean createCompany(Company company);
 
     public abstract boolean updateCompany(long id, Company updatedcompany);
+
+    public abstract void updateCompanyRating(ReviewMessage reviewMessage);
 
     public abstract boolean deleteCompanyById(long id);
 }

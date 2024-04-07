@@ -21,6 +21,7 @@ public class Company {
     private long jobId;
 
     private long reviewId;
+    private double companyRating;
 
 
 
@@ -86,13 +87,13 @@ public class Company {
         this.reviewId = reviewId;
     }
 
-    /**
-     * @param obj
-     * @return
-     */
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public double getRating() {
+        return companyRating;
     }
+
+    public void setRating(double companyRating) {
+        this.companyRating = companyRating;
+    }
+
 
 }

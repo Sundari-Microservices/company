@@ -1,9 +1,13 @@
 package com.alphabet.linkedin.companyms.company;
 
 
+import com.alphabet.linkedin.companyms.company.clients.ReviewClient;
+import com.alphabet.linkedin.companyms.company.dto.ReviewMessage;
 import com.alphabet.linkedin.companyms.company.impl.CompanyServiceImpl;
+import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -12,6 +16,9 @@ public class ComapnyService implements CompanyServiceImpl {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private ReviewClient reviewClient;
     /**
      * @return
      */
@@ -50,13 +57,23 @@ public class ComapnyService implements CompanyServiceImpl {
         if( company != null){
            company.setCompanyName(updatedcompany.getCompanyName());
            company.setCompanyDescription(updatedcompany.getCompanyDescription());
-
            company.setCompanyLocation(updatedcompany.getCompanyLocation());
+           company.setRating(updatedcompany.getRating());
            companyRepository.save(company);
            return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void updateCompanyRating(ReviewMessage reviewMessage) {
+        Company company = companyRepository.findById(reviewMessage.getCompanyId())
+                .orElseThrow(()-> new NotFoundException("Company Not Found:"+reviewMessage.getCompanyId()));
+        double averageRating = reviewClient.getAverageRatingForCompany(reviewMessage.getCompanyId());
+        company.setRating(averageRating);
+        companyRepository.save(company);
+//        System.out.println(reviewMessage.toString());
     }
 
     /**
